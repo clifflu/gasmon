@@ -1,0 +1,20 @@
+{
+  "name": "gasmon",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js",
+    "test": "mocha"
+  },
+  "author": "Cliff Chao-kuan Lu <clifflu@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "libxmljs": "^0.18.4",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0"
+  }
+}

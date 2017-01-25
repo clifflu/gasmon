@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <getCPCMainProdListPriceResponse xmlns="http://tmtd.cpc.com.tw/">
+            <getCPCMainProdListPriceResult>
+                <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+                    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+                        <xs:complexType>
+                            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element name="tbTable">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="型別名稱" type="xs:string" minOccurs="0" />
+                                            <xs:element name="產品編號" type="xs:string" minOccurs="0" />
+                                            <xs:element name="產品名稱" type="xs:string" minOccurs="0" />
+                                            <xs:element name="包裝" type="xs:string" minOccurs="0" />
+                                            <xs:element name="銷售對象" type="xs:string" minOccurs="0" />
+                                            <xs:element name="交貨地點" type="xs:string" minOccurs="0" />
+                                            <xs:element name="計價單位" type="xs:string" minOccurs="0" />
+                                            <xs:element name="參考牌價" type="xs:float" minOccurs="0" />
+                                            <xs:element name="營業稅" type="xs:string" minOccurs="0" />
+                                            <xs:element name="貨物稅" type="xs:string" minOccurs="0" />
+                                            <xs:element name="牌價生效時間" type="xs:dateTime" minOccurs="0" />
+                                            <xs:element name="備註" type="xs:string" minOccurs="0" />
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:choice>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:schema>
+                <diffgr:diffgram xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">
+                    <NewDataSet xmlns="">
+                        <tbTable diffgr:id="tbTable1" msdata:rowOrder="0"><型別名稱>汽柴油零售
+                        </型別名稱><產品編號>113F 1209800
+                    </產品編號><產品名稱>98無鉛汽油
+                </產品名稱><包裝>散裝
+            </包裝><銷售對象>一般自用客戶 
+        </銷售對象><交貨地點>中油自營站
+    </交貨地點><計價單位>元/ 公升
+</計價單位><參考牌價>28.4
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>內含
+</貨物稅><牌價生效時間>2017-01-23T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable2" msdata:rowOrder="1"><型別名稱>汽柴油零售
+</型別名稱><產品編號>113F 1209500
+</產品編號><產品名稱>95無鉛汽油
+</產品名稱><包裝>散裝
+</包裝><銷售對象>一般自用客戶 
+</銷售對象><交貨地點>中油自營站
+</交貨地點><計價單位>元/ 公升
+</計價單位><參考牌價>26.4
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>內含
+</貨物稅><牌價生效時間>2017-01-23T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable3" msdata:rowOrder="2"><型別名稱>汽柴油零售
+</型別名稱><產品編號>113F 1209200
+</產品編號><產品名稱>92無鉛汽油
+</產品名稱><包裝>散裝
+</包裝><銷售對象>一般自用客戶
+</銷售對象><交貨地點>中油自營站
+</交貨地點><計價單位>元/ 公升
+</計價單位><參考牌價>24.9
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>內含
+</貨物稅><牌價生效時間>2017-01-23T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable4" msdata:rowOrder="3"><型別名稱>汽柴油零售
+</型別名稱><產品編號>113F 1229500
+</產品編號><產品名稱>酒精汽油
+</產品名稱><包裝>散裝
+</包裝><銷售對象>一般自用客戶 
+</銷售對象><交貨地點>中油自營站
+</交貨地點><計價單位>元/ 公升
+</計價單位><參考牌價>26.4
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>內含
+</貨物稅><牌價生效時間>2017-01-23T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable5" msdata:rowOrder="4"><型別名稱>汽柴油零售
+</型別名稱><產品編號>113F 5100100
+</產品編號><產品名稱>超級柴油
+</產品名稱><包裝>散裝
+</包裝><銷售對象>一般自用客戶
+</銷售對象><交貨地點>中油自營站
+</交貨地點><計價單位>元/ 公升
+</計價單位><參考牌價>22.6
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>內含
+</貨物稅><牌價生效時間>2017-01-23T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable6" msdata:rowOrder="5"><型別名稱>汽柴油零售
+</型別名稱><產品編號>113F 5100700
+</產品編號><產品名稱>海運輕柴油
+</產品名稱><包裝>散裝
+</包裝><銷售對象>車隊卡合約客戶
+</銷售對象><交貨地點>中油自營漁船站
+</交貨地點><計價單位>元/ 公秉
+</計價單位><參考牌價>22600
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>內含
+</貨物稅><牌價生效時間>2017-01-23T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable7" msdata:rowOrder="6"><型別名稱>汽柴油零售
+</型別名稱><產品編號>113F 5100800
+</產品編號><產品名稱>海運重柴油
+</產品名稱><包裝>散裝
+</包裝><銷售對象>一般自用客戶
+</銷售對象><交貨地點>中油自營漁船站
+</交貨地點><計價單位>元/ 公秉
+</計價單位><參考牌價>22100
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>內含
+</貨物稅><牌價生效時間>2017-01-23T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable8" msdata:rowOrder="7"><型別名稱>燃料油
+</型別名稱><產品編號>113F 6210800
+</產品編號><產品名稱>甲種低硫燃料油(S:0.5%)
+</產品名稱><包裝>散裝
+</包裝><銷售對象>一般自用合約客戶
+</銷售對象><交貨地點>中油供油服務中心
+</交貨地點><計價單位>元/ 公秉
+</計價單位><參考牌價>13314
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>110元/公秉
+</貨物稅><牌價生效時間>2017-01-06T00:00:00+08:00
+</牌價生效時間><備註>2010/8/1起供售
+</備註>
+</tbTable>
+<tbTable diffgr:id="tbTable9" msdata:rowOrder="8"><型別名稱>燃料油
+</型別名稱><產品編號>113F 6210500
+</產品編號><產品名稱>低硫燃料油(S:0.5%)
+</產品名稱><包裝>散裝
+</包裝><銷售對象>一般自用合約客戶
+</銷售對象><交貨地點>中油供油服務中心
+</交貨地點><計價單位>元/ 公秉
+</計價單位><參考牌價>12461
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>110元/公秉
+</貨物稅><牌價生效時間>2017-01-06T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable10" msdata:rowOrder="9"><型別名稱>燃料油
+</型別名稱><產品編號>113F 6210500
+</產品編號><產品名稱>發電用低硫燃料油(S:0.5%)
+</產品名稱><包裝>散裝
+</包裝><銷售對象>發電用戶
+</銷售對象><交貨地點>台電公司發電廠
+</交貨地點><計價單位>元/ 公秉
+</計價單位><參考牌價>12461
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>110元/公秉
+</貨物稅><牌價生效時間>2017-01-06T00:00:00+08:00
+</牌價生效時間>
+</tbTable>
+<tbTable diffgr:id="tbTable11" msdata:rowOrder="10"><型別名稱>燃料油
+</型別名稱><產品編號>113F 6211500
+</產品編號><產品名稱>低硫高流動點燃料油(S:0.5%)
+</產品名稱><包裝>散裝
+</包裝><銷售對象>發電用戶
+</銷售對象><交貨地點>台電公司發電廠
+</交貨地點><計價單位>元/ 公秉
+</計價單位><參考牌價>12411
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>110元/公秉
+</貨物稅><牌價生效時間>2017-01-06T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+<tbTable diffgr:id="tbTable12" msdata:rowOrder="11"><型別名稱>燃料油
+</型別名稱><產品編號>113F 6220100
+</產品編號><產品名稱>輕裂燃料油
+</產品名稱><包裝>散裝
+</包裝><銷售對象>國喬化學公司,台苯化學公司
+</銷售對象><交貨地點>林園石化廠
+</交貨地點><計價單位>元/ 公秉
+</計價單位><參考牌價>12761
+</參考牌價><營業稅>5%
+</營業稅><貨物稅>110元/公秉
+</貨物稅><牌價生效時間>2017-01-06T00:00:00+08:00
+</牌價生效時間>
+<備註 />
+</tbTable>
+</NewDataSet>
+</diffgr:diffgram>
+</getCPCMainProdListPriceResult>
+</getCPCMainProdListPriceResponse>
+</soap:Body>
+</soap:Envelope>

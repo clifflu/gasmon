@@ -1,0 +1,19 @@
+service: gasmon # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+#  stage: dev
+  region: us-west-2
+  memory: 128
+  timeout: 10
+
+functions:
+  gasmon:
+    handler: handler.gasmon
+    events:
+      - schedule: "cron(0 4 ? * SUN *)"
+
+#    Define function environment variables here
+#    environment:
+#      variable2: value2
