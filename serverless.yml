@@ -2,6 +2,7 @@ service: gasmon # NOTE: update this with your service name
 
 provider:
   name: aws
+  deploymentBucket: net.clifflu.sls-deploy.${self:provider.region}
   runtime: nodejs4.3
   region: us-west-2
   memorySize: 128
