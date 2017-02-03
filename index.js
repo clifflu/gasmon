@@ -1,5 +1,7 @@
 'use strict';
 
-const gasmon = require('./src/main')
+const gasmon = require('./src/gasmon')
 
-gasmon.monitor().then(console.log)
+gasmon
+    .query()
+    .then(console.log)

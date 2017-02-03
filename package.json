@@ -10,8 +10,8 @@
   "author": "Cliff Chao-kuan Lu <clifflu@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "libxmljs": "^0.18.4",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "chai": "^3.5.0",

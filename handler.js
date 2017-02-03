@@ -1,10 +1,12 @@
 'use strict';
 
-const gasmon = require('./src/main')
+const gasmon = require('./src/gasmon')
 
 module.exports.gasmon = (event, context, callback) => {
-  gasmon.monitor().then(result => {
-    console.log(result)
-    callback(null, result)
-  }, callback)
+  gasmon
+    .query()
+    .then(gasmon.writeLogs)
+    .then(result => {
+      callback(null, result)
+    }, callback)
 };

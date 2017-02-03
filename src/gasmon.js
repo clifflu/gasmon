@@ -1,7 +1,7 @@
 'use strict'
 
 const fs = require('fs')
-const libxmljs = require('libxmljs')
+const xml2js = require('xml2js')
 const request = require('request')
 
 const ProductNameMapping = Object.freeze({
@@ -17,9 +17,10 @@ const ColumnNameMapping = Object.freeze({
   '牌價生效時間': 'effective'
 })
 
+const writeLogs = console.log
 
-function monitor() {
-  return fetchBody().then(extractXml)
+function query() {
+  return fetchBody().then(parseXml).then(extractPricing)
 }
 
 function fetchBody(options){
@@ -46,42 +47,44 @@ function fetchBody(options){
   })
 }
 
-function extractXml(xmlString) {
-  let xmlDoc = libxmljs.parseXml(xmlString)
+function parseXml(xmlString) {
+  return new Promise((resolve, reject) => {
+    xml2js.parseString(xmlString, (err, result) =>
+      err ? reject(err) : resolve(result)
+    )
+  })
+}
+
+function extractPricing(pricing) {
+  let pricingTable = pricing['soap:Envelope']['soap:Body'][0]
+    .getCPCMainProdListPriceResponse[0]
+    .getCPCMainProdListPriceResult[0]
+    ['diffgr:diffgram'][0].NewDataSet[0].tbTable
+
   let output = []
   let productNames = Object.keys(ProductNameMapping)
-  let tbTables = xmlDoc.find('//tbTable')
 
-  for (let tIdx in tbTables) {
+  for (let pricing of pricingTable) {
     try {
       let buf = {}
-      let tbTable = tbTables[tIdx]
-      let productName = tbTable.find('產品名稱')[0].text().trim()
+      let productName = pricing['產品名稱'][0]
 
-      if (! (productName = ProductNameMapping[productName])) {
+      if (! ProductNameMapping[productName]) {
         continue
       }
 
-      let columns = tbTable.childNodes()
+      for (let columnFind in ColumnNameMapping) {
+        let columnReplace = ColumnNameMapping[columnFind]
 
-      for (let idx in columns) {
-        let column = columns[idx]
-        let newColumnName = ColumnNameMapping[column.name()]
-        if (!newColumnName) {
-          continue
-        }
-
-        let val = column.text()
-        buf[newColumnName] = newColumnName == 'item'
-          ? productName
-          : newColumnName == 'price'
-            ? Number.parseFloat(val.trim())
-            : val.trim()
+        buf[columnReplace] = columnReplace == 'pricing'
+          ? Number.parseFloat(pricing[columnFind][0])
+          : pricing[columnFind][0]
       }
 
       output.push(buf)
 
     } catch (err){
+      console.error(err)
       continue
     }
   }
@@ -90,7 +93,8 @@ function extractXml(xmlString) {
 }
 
 module.exports = {
-  extractXml,
+  extractPricing,
   fetchBody,
-  monitor,
+  query,
+  writeLogs,
 }
