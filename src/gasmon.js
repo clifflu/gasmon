@@ -17,7 +17,10 @@ const ColumnNameMapping = Object.freeze({
   '牌價生效時間': 'effective'
 })
 
-const writeLogs = console.log
+function writeLogs(result){
+  console.log(result)
+  return result
+}
 
 function query() {
   return fetchBody().then(parseXml).then(extractPricing)
