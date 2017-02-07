@@ -1,20 +1,26 @@
 {
   "name": "gasmon",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "author": "Cliff Chao-kuan Lu <clifflu@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.9.0",
+    "moment": "^2.17.1",
+    "pushover-notifications": "^0.2.4",
     "request": "^2.79.0",
-    "xml2js": "^0.4.17"
+    "sprintf-js": "^1.0.3",
+    "xml2js": "^0.4.17",
+    "yamljs": "^0.2.8"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0"
+    "chai-as-promised": "^6.0.0",
+    "mocha": "^3.2.0"
   }
 }

@@ -1,19 +1,30 @@
-service: gasmon # NOTE: update this with your service name
+service: gasmon
 
+custom:
+  deploymentBucket: net.clifflu.sls-deploy.${self:provider.region}
+  config: ${file(./config.yml)}
 provider:
   name: aws
-  deploymentBucket: net.clifflu.sls-deploy.${self:provider.region}
+  deploymentBucket: ${self:custom.deploymentBucket}
   runtime: nodejs4.3
   region: us-west-2
   memorySize: 128
   timeout: 10
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - 'dynamodb:*'
+      Resource:
+        - 'arn:aws:dynamodb:${self:provider.region}:*:*'
 
 functions:
   gasmon:
     handler: handler.gasmon
     events:
-      - schedule: "cron(0 */12 ? * SAT,SUN *)"
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
+      - schedule: "cron(15 2-6 ? * SUN *)"
+    environment:
+      TZ: ${self:custom.config.timezone}
+      gasmon_stateTable_name: ${self:custom.config.gasmon.stateTable.name}
+      gasmon_stateTable_key: ${self:custom.config.gasmon.stateTable.key}
+      cred_pushover_userKey: ${self:custom.config.cred.pushover.userKey}
+      cred_pushover_appKey: ${self:custom.config.cred.pushover.appKey}

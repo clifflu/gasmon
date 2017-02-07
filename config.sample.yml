@@ -1,0 +1,9 @@
+cred:
+    pushover:
+        userKey: [PUSHOVER.USER_KEY]
+        appKey: [PUSHOVER.APP_KEY]
+gasmon:
+    timezone: Asia/Taipei
+    stateTable:
+        key: gasmon
+        name: [TABLE_NAME]

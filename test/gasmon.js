@@ -12,10 +12,9 @@ const assert = chai.assert
 chai.use(chaiAsPromised)
 
 describe('gasmon', function(){
-
-  it('shoudl success', function(){
+  it('should succeed', function(){
     let content = fs.readFileSync(path.join(__dirname, 'mock.xml')).toString()
-    let p = gasmon.extractXml(content)
+    let p = Promise.resolve({body:content}).then(gasmon.parseXml)
     assert.isFulfilled(p)
   })
 
