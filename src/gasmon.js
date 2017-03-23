@@ -37,26 +37,20 @@ AWS.config.update({
   region: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION
 })
 
-function writeLogs(payload){
-  console.log(payload.items)
-  return payload
-}
-
-function fetch() {
-  return fetchBody()
-    .then(parseXml)
-    .then(extractPricing)
-}
-
 function handler(evt, ctx, cb) {
   return fetch()
-    .then(writeLogs)
     .then(updateStore)
     .then(composeMessage)
     .then(notify)
     .then(result => {
       cb(null, result.items)
     }, cb)
+}
+
+function fetch() {
+  return fetchBody()
+    .then(parseXml)
+    .then(extractPricing)
 }
 
 function fetchBody(options){
@@ -80,107 +74,6 @@ function fetchBody(options){
     }, (err, response, body) =>
       err ? reject(err) : resolve({body})
     )
-  })
-}
-
-function updateStore(payload) {
-  let ddb = new AWS.DynamoDB()
-  let newValue = JSON.stringify(payload.items)
-
-  return new Promise((resolve, reject) => {
-    ddb.putItem({
-      TableName: stateTableName,
-      ReturnValues: 'ALL_OLD',
-      Item: {
-        pid: {S: stateTableKey},
-        items: {S: newValue},
-      },
-      ConditionExpression: "#i <> :i",
-      ExpressionAttributeNames: {
-        '#i': 'items',
-      },
-      ExpressionAttributeValues: {
-        ':i': {S: newValue},
-      }
-    }, (err, result) => {
-      if (err) {
-        if (err.code == 'ConditionalCheckFailedException') {
-          return resolve(payload)
-        }
-        return reject(err)
-      } 
-
-      resolve(extend(payload, {oldItems: JSON.parse(result.Attributes.items.S)}))
-    })
-  })
-}
-
-function composeMessage(payload) {
-  function _avgPrice(items) {
-    let sum = 0.0
-    let count = 0
-
-    for (let item of items) {
-      sum += item.price
-      count++
-    }
-
-    return count ? sum / count : 0
-  }
-
-  function _title() {
-    let newPrice = _avgPrice(payload.items)
-    let oldPrice = payload.oldItems ? _avgPrice(payload.oldItems) : undefined
-    let upPct = oldPrice ? Math.round(100 * (newPrice - oldPrice) / oldPrice) : 0
-
-    let change = upPct > 0 
-      ? sprintf('上漲 %d%%', upPct)
-      : upPct < 0 
-        ? sprintf('下跌 %d%%', -upPct)
-        : '不變'
-
-    return `[gasmon] 次期油價${change}`
-  }
-  
-  function _msg() {
-    let buff = {}
-    for (let obj of payload.items) {
-      buff[obj.effective] = buff[obj.effective] || {}
-      buff[obj.effective][obj.item] = obj.price
-    }
-
-    let lines = []
-    for (let effective in buff) {
-      let dtStr = moment(effective).format('MM/DD HH:mm')
-      lines.push(`${dtStr} 起生效:`)
-
-      for (let item in buff[effective]) {
-        lines.push(sprintf("  %s: %.2f, ", item, buff[effective][item]))
-      }
-    }
-
-    return lines.join("\n")
-  }
-
-  return Promise.resolve(extend(payload, 
-    {msg: {title: _title(), message: _msg()}
-  }))
-}
-
-function notify(payload) {
-  if (!payload.msg) {
-    console.error('payload.msg missing.', payload)
-    return Promise.resolve(payload)
-  }
-
-  if (!payload.oldItems) {
-    return Promise.resolve(payload)
-  }
-
-  return new Promise((resolve, reject) => {
-    pushSession.send(payload.msg, (err, result) => {
-      err ? reject(err) : resolve(payload)
-    })
   })
 }
 
@@ -229,6 +122,111 @@ function extractPricing(payload) {
   }
 
   return Promise.resolve(extend(payload, {items}))
+}
+
+function updateStore(payload) {
+  let ddb = new AWS.DynamoDB()
+  let newValue = JSON.stringify(payload.items)
+
+  return new Promise((resolve, reject) => {
+    ddb.putItem({
+      TableName: stateTableName,
+      ReturnValues: 'ALL_OLD',
+      Item: {
+        pk: {S: stateTableKey},
+        sk: {S: '-'},
+        items: {S: newValue},
+      },
+      ConditionExpression: "#i <> :i",
+      ExpressionAttributeNames: {
+        '#i': 'items',
+      },
+      ExpressionAttributeValues: {
+        ':i': {S: newValue},
+      }
+    }, (err, result) => {
+      if (err) {
+        if (err.code == 'ConditionalCheckFailedException') {
+          return resolve(payload)
+        }
+        return reject(err)
+      } 
+      
+      if (result.Attributes.items) {
+        extend(payload, {oldItems: JSON.parse(result.Attributes.items.S)})
+      }
+      resolve(payload)
+    })
+  })
+}
+
+function composeMessage(payload) {
+  function _95Price(items) {
+    for (let item of items) {
+      if (item.item == '95無鉛汽油') {
+        return item.price
+      }
+    }
+    return 666
+  }
+
+  function _95title() {
+    let newPrice = _95Price(payload.items)
+    let oldPrice = payload.oldItems ? _95Price(payload.oldItems) : undefined
+    let upPct = oldPrice ? newPrice - oldPrice : 0
+
+    let change = upPct > 0 
+      ? sprintf('上漲 %.1f 元', upPct)
+      : upPct < 0 
+        ? sprintf('下跌 %.1f 元', -upPct)
+        : '不變'
+
+    return `[gasmon] 次期油價${change}`
+  }
+
+  function _msg() {
+    let buff = {}
+    for (let obj of payload.items) {
+      buff[obj.effective] = buff[obj.effective] || {}
+      buff[obj.effective][obj.item] = obj.price
+    }
+
+    let lines = []
+    for (let effective in buff) {
+      let dtStr = moment(effective).format('MM/DD HH:mm')
+      lines.push(`${dtStr} 起生效:`)
+
+      for (let item in buff[effective]) {
+        lines.push(sprintf("  %s: %.2f, ", item, buff[effective][item]))
+      }
+    }
+
+    return lines.join("\n")
+  }
+
+  return Promise.resolve(extend(payload, 
+    {msg: {title: _95title(), message: _msg()}
+  }))
+}
+
+function notify(payload) {
+  if (!payload.msg) {
+    console.error('payload.msg missing.', payload)
+    return Promise.resolve(payload)
+  }
+
+  if (!payload.oldItems) {
+    console.log(`Old data missing`)
+    return Promise.resolve(payload)
+  }
+
+  return new Promise((resolve, reject) => {
+    console.log(`# ${payload.msg.title}`)
+    console.log(payload.msg.message)
+    pushSession.send(payload.msg, (err, result) => {
+      err ? reject(err) : resolve(payload)
+    })
+  })
 }
 
 module.exports = {
